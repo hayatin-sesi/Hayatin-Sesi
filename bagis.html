@@ -3,115 +3,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bağış - Hayatın Sesi</title>
-  <meta name="description" content="Hayatın Sesi platformuna bağış yaparak İslami içeriklerin yayılmasına destek olabilirsiniz." />
-  <meta name="keywords" content="bağış, yardım, İslami destek, sadaka, hayır, hastalara yardım" />
-  <meta name="author" content="Hayatın Sesi" />
+  <title>Hayatın Sesi</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: 'Roboto', sans-serif;
-      background-color: #0a2e1a;
+    }
+
+    body {
+      background-color: #0a0f0a;
       color: #ffffff;
     }
 
     .navbar {
-      background-color: #003319;
+      background-color: #001f14;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      padding: 1rem 1.5rem;
-    }
-
-    .navbar-left {
-      display: flex;
-      align-items: center;
-    }
-
-    .navbar-left img {
-      height: 45px;
-      margin-right: 10px;
-    }
-
-    .navbar-right {
-      display: flex;
-      align-items: center;
-    }
-
-    .brand-text {
-      font-size: 1.3rem;
-      color: #00ff88;
-      font-weight: bold;
+      padding: 10px 20px;
+      position: relative;
     }
 
     .menu-toggle {
+      font-size: 28px;
+      color: #00ff88;
       background: none;
       border: none;
-      color: #00ff88;
-      font-size: 1.8rem;
-      margin-left: 1rem;
       cursor: pointer;
-      display: block;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile span {
+      color: #00ff88;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .profile img {
+      height: 40px;
     }
 
     .menu-links {
-      background-color: #002a17;
-      padding: 0.5rem 1.5rem;
       display: none;
       flex-direction: column;
+      background-color: #002f20;
+      padding: 10px 20px;
     }
 
     .menu-links a {
-      color: #00ff88;
-      margin: 0.4rem 0;
+      color: white;
       text-decoration: none;
+      padding: 8px 0;
+      border-bottom: 1px solid #00ff88;
     }
 
     .menu-links.active {
       display: flex;
     }
 
-    .container {
-      padding: 2rem;
-    }
-
-    h1, h2 {
-      color: #00ff88;
-    }
-
-    a {
-      color: #00ff88;
-    }
-
-    ul {
-      padding-left: 1.5rem;
-    }
-
-    blockquote {
-      background-color: #003319;
-      border-left: 4px solid #00ff88;
-      padding: 1rem;
-      margin: 1rem 0;
-      font-style: italic;
-    }
-
-    .section {
-      margin-bottom: 2rem;
-    }
-
-    @media(min-width: 768px) {
+    /* Responsive sabit görünüm için (isteğe bağlı) */
+    @media (min-width: 768px) {
       .menu-toggle {
         display: none;
       }
-
       .menu-links {
-        flex-direction: row;
         display: flex !important;
+        flex-direction: row;
+        gap: 20px;
+        background: none;
+        border: none;
       }
-
       .menu-links a {
-        margin-right: 1.5rem;
+        border: none;
       }
     }
   </style>
@@ -119,12 +90,10 @@
 <body>
 
   <div class="navbar">
-    <div class="navbar-left">
-      <img src="images/hayatinsesi-logo.png" alt="Hayatın Sesi logosu" />
-    </div>
-    <div class="navbar-right">
-      <span class="brand-text">Hayatın Sesi</span>
-      <button class="menu-toggle" onclick="toggleMenu()">&#9776;</button>
+    <button class="menu-toggle" onclick="toggleMenu()">&#9776;</button>
+    <div class="profile">
+      <span>Hayatın Sesi</span>
+      <img src="images/hayatinsesi-logo.png" alt="Hayatın Sesi Logosu" />
     </div>
   </div>
 
@@ -136,6 +105,16 @@
     <a href="instagram.html">Instagram</a>
     <a href="bagis.html">Bağış</a>
   </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menuLinks");
+      menu.classList.toggle("active");
+    }
+  </script>
+
+</body>
+</html>
 
   <div class="container">
     <h1>Bağış Yap</h1>
