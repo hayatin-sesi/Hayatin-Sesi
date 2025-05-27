@@ -21,43 +21,50 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
+      padding: 1rem 1.5rem;
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-left img {
+      height: 45px;
+      margin-right: 10px;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand-text {
+      font-size: 1.3rem;
+      color: #00ff88;
+      font-weight: bold;
     }
 
     .menu-toggle {
       background: none;
       border: none;
       color: #00ff88;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
+      margin-left: 1rem;
       cursor: pointer;
-    }
-
-    .profile {
-      display: flex;
-      align-items: center;
-    }
-
-    .profile span {
-      color: #00ff88;
-      font-weight: bold;
-      font-size: 1.2rem;
-      margin-right: 10px;
-    }
-
-    .profile img {
-      height: 40px;
+      display: block;
     }
 
     .menu-links {
       background-color: #002a17;
-      padding: 0.5rem 2rem;
+      padding: 0.5rem 1.5rem;
       display: none;
       flex-direction: column;
     }
 
     .menu-links a {
       color: #00ff88;
-      margin: 0.3rem 0;
+      margin: 0.4rem 0;
       text-decoration: none;
     }
 
@@ -94,10 +101,15 @@
     }
 
     @media(min-width: 768px) {
+      .menu-toggle {
+        display: none;
+      }
+
       .menu-links {
         flex-direction: row;
         display: flex !important;
       }
+
       .menu-links a {
         margin-right: 1.5rem;
       }
@@ -107,10 +119,12 @@
 <body>
 
   <div class="navbar">
-    <button class="menu-toggle" onclick="toggleMenu()">&#9776;</button>
-    <div class="profile">
-      <span>Hayatın Sesi</span>
+    <div class="navbar-left">
       <img src="images/hayatinsesi-logo.png" alt="Hayatın Sesi logosu" />
+    </div>
+    <div class="navbar-right">
+      <span class="brand-text">Hayatın Sesi</span>
+      <button class="menu-toggle" onclick="toggleMenu()">&#9776;</button>
     </div>
   </div>
 
