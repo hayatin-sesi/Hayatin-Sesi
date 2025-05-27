@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>İçerik Detayı | Hayatın Sesi</title>
+</head>
+<body>
+  <div id="icerik">
+    <h1>Yükleniyor...</h1>
+    <p>İçerik bulunamadı.</p>
+  </div>
+
+  <script src="veri.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get("id"));
+
+    const icerik = blogVerileri.find(yazi => yazi.id === id);
+
+    const container = document.getElementById("icerik");
+    if (icerik) {
+      container.innerHTML = `
+        <h1>${icerik.baslik}</h1>
+        <p>${icerik.ozet}</p>
+        <p>[Buraya tam içerik eklenebilir]</p>
+      `;
+    } else {
+      container.innerHTML = "<p>İçerik bulunamadı.</p>";
+    }
+  </script>
+</body>
+</html>
