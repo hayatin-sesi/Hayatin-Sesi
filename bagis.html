@@ -2,101 +2,88 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hayatın Sesi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bağış - Hayatın Sesi</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Roboto', sans-serif;
-    }
-
-    body {
-      background-color: #0a0f0a;
-      color: #ffffff;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Roboto', sans-serif; background-color: #0d1f1e; color: #fff; }
     .navbar {
-      background-color: #001f14;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 10px 20px;
-      position: relative;
+      align-items: center;
+      background-color: #071614;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
-
     .menu-toggle {
-      font-size: 28px;
-      color: #00ff88;
+      font-size: 2rem;
       background: none;
       border: none;
+      color: #00ff88;
       cursor: pointer;
     }
-
     .profile {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
-    .profile span {
-      color: #00ff88;
-      font-size: 20px;
-      font-weight: bold;
-    }
-
     .profile img {
+      width: 40px;
       height: 40px;
     }
-
     .menu-links {
       display: none;
       flex-direction: column;
-      background-color: #002f20;
-      padding: 10px 20px;
+      background-color: #06201b;
+      padding: 1rem;
+      animation: slideDown 0.5s ease forwards;
     }
-
+    .menu-links.active { display: flex; }
     .menu-links a {
-      color: white;
+      color: #00ff88;
       text-decoration: none;
-      padding: 8px 0;
-      border-bottom: 1px solid #00ff88;
+      padding: 0.5rem 0;
     }
-
-    .menu-links.active {
-      display: flex;
+    .section {
+      padding: 2rem;
+      animation: fadeIn 1s ease forwards;
     }
-
-    /* Responsive sabit görünüm için (isteğe bağlı) */
-    @media (min-width: 768px) {
-      .menu-toggle {
-        display: none;
-      }
-      .menu-links {
-        display: flex !important;
-        flex-direction: row;
-        gap: 20px;
-        background: none;
-        border: none;
-      }
-      .menu-links a {
-        border: none;
-      }
+    .donation-box {
+      background-color: #102925;
+      border: 1px solid #00ff88;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00ff88;
+    }
+    .donation-box h2 {
+      color: #00ff88;
+    }
+    .donation-box a {
+      color: #ffd700;
+      text-decoration: underline;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideDown {
+      from { max-height: 0; opacity: 0; }
+      to { max-height: 500px; opacity: 1; }
     }
   </style>
 </head>
 <body>
-
   <div class="navbar">
     <button class="menu-toggle" onclick="toggleMenu()">&#9776;</button>
     <div class="profile">
-      <span>Hayatın Sesi</span>
-      <img src="images/hayatinsesi-logo.png" alt="Hayatın Sesi Logosu" />
+      <span style="color: #00ff88; font-weight: bold; font-size: 1.2rem;">Hayatın Sesi</span>
+      <img src="images/hayatinsesi-logo.png" alt="Hayatın Sesi logosu" />
     </div>
   </div>
-
   <div class="menu-links" id="menuLinks">
     <a href="index.html">Ana Sayfa</a>
     <a href="hakkimizda.html">Hakkımızda</a>
@@ -106,60 +93,29 @@
     <a href="bagis.html">Bağış</a>
   </div>
 
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById("menuLinks");
-      menu.classList.toggle("active");
-    }
-  </script>
-
-</body>
-</html>
-
-  <div class="container">
-    <h1>Bağış Yap</h1>
-
-    <div class="section">
-      <p>“Hayatın Sesi” olarak Allah rızası için içerik üretiyoruz. Siz de bu hizmete destek olarak daha fazla kişiye ulaşmamıza katkı sağlayabilirsiniz.</p>
+  <section class="section">
+    <div class="donation-box">
+      <h2>SMA Hastaları İçin Bağış</h2>
+      <p>"Kim bir canı kurtarırsa, bütün insanları kurtarmış gibi olur." (Maide 5/32)</p>
+      <p>SMA hastası yavrularımızın tedavisi için yardımlarınız çok kıymetli. Haydi onların sesi olalım.</p>
+      <p><strong>Bağış Siteleri:</strong>
+        <br> <a href="https://www.sma.org.tr" target="_blank">sma.org.tr</a>
+        <br> <a href="https://www.instagram.com/smadernegi/" target="_blank">@smadernegi (Instagram)</a>
+      </p>
     </div>
 
-    <div class="section">
-      <h2>Bağış İletişimi</h2>
-      <p><strong>E-posta:</strong> <a href="mailto:hayatinsesi07@gmail.com">hayatinsesi07@gmail.com</a></p>
+    <div class="donation-box">
+      <h2>Hayatın Sesi Bağış</h2>
+      <p>"Allah yolunda harcama yapın. Kendi ellerinizle kendinizi tehlikeye atmayın." (Bakara 2/195)</p>
+      <p>Hayatın Sesi, İslamî içerikleri daha geniş kitlelere ulaştırmak için desteğinizi bekliyor. Sunucular, yazılım araçları ve gönüllü projeler için yapılan her destek, Allah rızası için bir yatırımdır.</p>
+      <p><strong>Bağış E-Posta:</strong> <a href="mailto:hayatinsesi07@gmail.com">hayatinsesi07@gmail.com</a></p>
     </div>
-
-    <div class="section">
-      <h2>Bağışların Kullanım Alanları</h2>
-      <ul>
-        <li>İslami içerik üretimi</li>
-        <li>Web sitesi altyapısı</li>
-        <li>İhtiyaç sahibi hasta kardeşlerimize destek</li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <h2>Hastalara Yardım</h2>
-      <p>İlaç, tedavi, cihaz, ulaşım ve refakat desteği gibi alanlarda güvenle yardım sağlıyoruz.</p>
-    </div>
-
-    <div class="section">
-      <h2>Ayet ve Hadis</h2>
-      <blockquote>“İyilik ve takva üzere yardımlaşın.” (Maide, 2)</blockquote>
-      <blockquote>“Kim bir Müslüman’ın sıkıntısını giderirse, Allah da onun kıyamet sıkıntılarından birini giderir.” (Buhârî, Müslim)</blockquote>
-    </div>
-
-    <div class="section">
-      <h2>Teşekkür</h2>
-      <p>Yaptığınız her bağış, bir gönüle umut, bir yüreğe şifa olabilir. Allah sizden razı olsun.</p>
-    </div>
-  </div>
+  </section>
 
   <script>
     function toggleMenu() {
-      const menu = document.getElementById("menuLinks");
-      menu.classList.toggle("active");
+      document.getElementById("menuLinks").classList.toggle("active");
     }
   </script>
-
 </body>
-  </html>
+      </html>
