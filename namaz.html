@@ -27,27 +27,32 @@
 
   <script>
     const steps = [
-  {
-    title: "1. Niyet",
-    img: "images/niyet.png",
-    desc: "Namaza başlamadan önce hangi vakit namazı kılacağını kalben belirlemek gerekir. Bu, niyet etmektir. Örneğin: “Niyet ettim Allah rızası için bugünkü öğle namazının farzını kılmaya.”"
-  },
-  {
-    title: "2. Tekbir",
-    img: "images/tekbir.png",
-    desc: "'Allahu Ekber' diyerek eller kulak hizasına kaldırılır ve göbek altına bağlanır."
-  },
-  {
-    title: "3. Kıyam",
-    img: "images/kiyam.png",
-    desc: "Ayakta durarak önce Fatiha suresi sonra bir sure (zammı sure) okunur.\n\nFatiha Suresi:\nBismillâhirrahmânirrahîm. Elhamdü lillâhi rabbil âlemîn. Errahmânirrahîm. Mâliki yevmiddîn. İyyâke na’budu ve iyyâke neste’în. İhdinessırâtal müstakîm. Sırâtallezîne en’amte aleyhim ğayrilmağdûbi aleyhim veleddâllîn. Âmin.\n\nZammı Sure Örneği (İhlâs):\nBismillâhirrahmânirrahîm. Kul hüvallâhu ehad. Allâhus-samed. Lem yelid ve lem yûled. Ve lem yekün lehû kufuven ehad."
-  },
-  {
-    title: "4. Rükû",
-    img: "images/ruku.png",
-    desc: "Eller dizlere gelecek şekilde bel eğilir. Bu harekete rükû denir. Rükûda üç defa 'Sübhâne Rabbiye’l-Azîm' denir."
-  }
-];
+      {
+        title: "1. Niyet",
+        img: "images/niyet.png",
+        desc: "Namaza başlamadan önce hangi vakit namazı kılacağını kalben belirlemek gerekir. Bu, niyet etmektir. Örneğin: “Niyet ettim Allah rızası için bugünkü öğle namazının farzını kılmaya.”"
+      },
+      {
+        title: "2. Tekbir",
+        img: "images/tekbir.png",
+        desc: "'Allahu Ekber' diyerek eller kulak hizasına kaldırılır ve bağlanır."
+      },
+      {
+        title: "3. Kıyam",
+        img: "images/kiyam.png",
+        desc: `Ayakta durarak önce Fatiha suresi, sonra bir zammı sure okunur.
+
+Fatiha Suresi:
+Bismillâhirrahmânirrahîm. Elhamdü lillâhi rabbil âlemîn. Errahmânirrahîm. Mâliki yevmiddîn. İyyâke na’budu ve iyyâke neste’în. İhdinessırâtal müstakîm. Sırâtallezîne en’amte aleyhim ğayrilmağdûbi aleyhim veleddâllîn. Âmin.
+
+Zammı Sure (İhlâs):
+Bismillâhirrahmânirrahîm. Kul hüvallâhu ehad. Allâhus-samed. Lem yelid ve lem yûled. Ve lem yekün lehû kufuven ehad.`
+      },
+      {
+        title: "4. Rükû",
+        img: "images/ruku.png",
+        desc: `Eller dizlere gelecek şekilde eğilinir. Sırt düz tutulur. “Sübhâne rabbiye’l-azîm” denir (üç defa söylenebilir).`
+      }
     ];
 
     let currentStep = 0;
@@ -56,6 +61,7 @@
       const step = steps[currentStep];
       document.getElementById("step-title").textContent = step.title;
       document.getElementById("step-image").src = step.img;
+      document.getElementById("step-description").textContent = "";
       document.getElementById("step-description").textContent = step.desc;
     }
 
@@ -74,4 +80,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
