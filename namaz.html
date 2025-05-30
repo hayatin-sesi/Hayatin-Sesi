@@ -12,7 +12,15 @@
 <body class="min-h-screen flex flex-col items-center py-10 px-4">
   <h1 class="text-4xl font-bold text-green-800 mb-4">Namaz Öğrenme Modülü</h1>
   <p class="text-lg text-gray-700 mb-8">Adım adım namaz kılmayı öğrenin</p>
-
+ <!-- Adım düğmeleri -->
+  <div class="flex flex-wrap justify-center gap-2 mb-6">
+    <button onclick="goToStep(0)" class="step-btn bg-green-100 hover:bg-green-200 text-green-800 font-semibold px-3 py-1 rounded">1</button>
+    <button onclick="goToStep(1)" class="step-btn bg-green-100 hover:bg-green-200 text-green-800 font-semibold px-3 py-1 rounded">2</button>
+    <button onclick="goToStep(2)" class="step-btn bg-green-100 hover:bg-green-200 text-green-800 font-semibold px-3 py-1 rounded">3</button>
+    <button onclick="goToStep(3)" class="step-btn bg-green-100 hover:bg-green-200 text-green-800 font-semibold px-3 py-1 rounded">4</button>
+    <button onclick="goToStep(4)" class="step-btn bg-green-100 hover:bg-green-200 text-green-800 font-semibold px-3 py-1 rounded">5</button>
+    <!-- Daha fazla adım eklersen buraya da buton ekle -->
+  </div>
   <div id="step-container" class="bg-white shadow-md rounded-2xl p-6 max-w-xl w-full text-center">
     <h2 id="step-title" class="text-2xl font-semibold mb-4">1. Niyet</h2>
     <img id="step-image" src="images/niyet.png" alt="Niyet" class="mx-auto mb-4 rounded-lg">
