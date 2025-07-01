@@ -35,7 +35,7 @@
   <script>
     async function fetchSurahs() {
       try {
-        const response = await fetch('http://api.alquran.cloud/v1/meta');
+        const response = await fetch('https://api.alquran.cloud/v1/meta');
         const data = await response.json();
         const surahs = data.data.surahs.references;
         const container = document.getElementById('surah-list');
