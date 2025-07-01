@@ -7,6 +7,38 @@
 <body>
   <h1 id="sureTitle"></h1>
   <div id="ayetler"></div>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    .surah {
+      background: #fff;
+      margin: 10px 0;
+      padding: 10px 15px;
+      border-left: 5px solid #00aa55;
+      border-radius: 8px;
+    }
+    .surah h3 {
+      margin: 0;
+      color: #00aa55;
+    }
+    .surah p {
+      margin: 5px 0 0;
+      font-size: 0.9rem;
+      color: #333;
+    }
+    .surah a {
+      display: inline-block;
+      margin-top: 8px;
+      text-decoration: none;
+      color: #0077cc;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
 
   <script>
     async function getSurahDetails() {
@@ -18,7 +50,9 @@
       }
 
       try {
-        const response = await fetch(`https://api.alquran.cloud/v1/surah/${surahID}/tr.diyanet`);
+        const response = await 
+          fetch(`https://api.alquran.cloud/v1/surah/${surahId}/ar.alafasy`);
+          fetch(`https://api.alquran.cloud/v1/surah/${surahID}/tr.diyanet`);
         const data = await response.json();
         document.getElementById("sureTitle").textContent = `${data.data.englishName} Suresi (${data.data.name})`;
         
