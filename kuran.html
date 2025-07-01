@@ -2,104 +2,57 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kur'an Sureleri</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 20px;
-    }
-    #surahList div {
-      background: #e0ffe0;
-      padding: 10px;
-      margin-bottom: 5px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    #surahList div:hover {
-      background: #c0ffc0;
-    }
-    #ayahContainer {
-      margin-top: 20px;
-      background: #fff;
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.2);
-    }
-    .ayah {
-      margin: 12px 0;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #ccc;
-    }
-    .ayah p.arabic {
-      font-size: 22px;
-      text-align: right;
-      margin: 0;
-      direction: rtl;
-    }
-    .ayah p.turkish {
-      font-size: 16px;
-      color: #555;
-      margin: 4px 0 0 0;
-    }
-  </style>
 </head>
 <body>
-  <h1>Kur'an Sureleri</h1>
-  <div id="surahList">Sureler yükleniyor...</div>
-  <div id="ayahContainer"></div>
-
-  <script>
-    fetch('https://api.alquran.cloud/v1/meta')
-      .then(res => res.json())
-      .then(data => renderSurahList(data.data.surahs.references))
-      .catch(err => console.error("Sureler yüklenirken bir hata oluştu:", err));
-
-    function renderSurahList(surahs) {
-      const listContainer = document.getElementById("surahList");
-      listContainer.innerHTML = "";
-      surahs.forEach(surah => {
-        const div = document.createElement("div");
-        div.textContent = `${surah.number}. ${surah.englishName} (${surah.name})`;
-        div.onclick = () => loadSurah(surah.number);
-        listContainer.appendChild(div);
-      });
+  <h1>Kur'an-ı Kerim Sureleri</h1>
+  <div id="surahList"></div>
+    <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    .surah {
+      background: #fff;
+      margin: 10px 0;
+      padding: 10px 15px;
+      border-left: 5px solid #00aa55;
+      border-radius: 8px;
+    }
+    .surah h3 {
+      margin: 0;
+      color: #00aa55;
+    }
+    .surah p {
+      margin: 5px 0 0;
+      font-size: 0.9rem;
+      color: #333;
     }
 
-    function loadSurah(surahId) {
-      const ayahContainer = document.getElementById("ayahContainer");
-      ayahContainer.innerHTML = "Ayetler yükleniyor...";
-
-      const arabicUrl = `https://api.alquran.cloud/v1/surah/${surahId}/ar.alafasy`;
-      const turkishUrl = `https://api.alquran.cloud/v1/surah/${surahId}/tr.diyanet`;
-
-      Promise.all([
-        fetch(arabicUrl).then(res => res.json()),
-        fetch(turkishUrl).then(res => res.json())
-      ])
-      .then(([arabicData, turkishData]) => {
-        const arabicAyahs = arabicData.data.ayahs;
-        const turkishAyahs = turkishData.data.ayahs;
-
-        ayahContainer.innerHTML = "";
-        arabicAyahs.forEach((ayah, idx) => {
+        <script>
+    async function loadSurahs() {
+      try {
+        const res = await fetch("https://api.alquran.cloud/v1/meta");
+        const data = await res.json();
+        const surahs = data.data.surahs.references;
+        const container = document.getElementById("surahList");
+        surahs.forEach(surah => {
           const div = document.createElement("div");
-          div.className = "ayah";
           div.innerHTML = `
-            <p class="arabic">${ayah.text}</p>
-            <p class="turkish">${turkishAyahs[idx]?.text || ""}</p>
+            <h3>${surah.englishName} (${surah.name})</h3>
+            <p>Ayet Sayısı: ${surah.numberOfAyahs}</p>
+            <p>İndirildiği Yer: ${surah.revelationType}</p>
+            <a href="sure.html?surah=${surah.number}">Ayetleri Gör</a>
+            <hr/>
           `;
-          ayahContainer.appendChild(div);
+          container.appendChild(div);
         });
-      })
-      .catch(error => {
-        console.error(error);
-        ayahContainer.innerHTML = "Ayetler yüklenirken bir hata oluştu.";
-      });
+      } catch (err) {
+        document.getElementById("surahList").textContent = "Hata oluştu: " + err;
+      }
     }
+    loadSurahs();
   </script>
 </body>
 </html>
