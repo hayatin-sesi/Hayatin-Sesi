@@ -3,11 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Kur'an Sureleri</title>
-</head>
-<body>
-  <h1>Kur'an-ı Kerim Sureleri</h1>
-  <div id="surahList"></div>
-    <style>
+  <style>
     body {
       font-family: sans-serif;
       background: #f0f0f0;
@@ -29,8 +25,20 @@
       font-size: 0.9rem;
       color: #333;
     }
+    .surah a {
+      display: inline-block;
+      margin-top: 8px;
+      text-decoration: none;
+      color: #0077cc;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kur'an-ı Kerim Sureleri</h1>
+  <div id="surahList"></div>
 
-        <script>
+  <script>
     async function loadSurahs() {
       try {
         const res = await fetch("https://api.alquran.cloud/v1/meta");
@@ -39,12 +47,12 @@
         const container = document.getElementById("surahList");
         surahs.forEach(surah => {
           const div = document.createElement("div");
+          div.className = "surah";
           div.innerHTML = `
             <h3>${surah.englishName} (${surah.name})</h3>
-            <p>Ayet Sayısı: ${surah.numberOfAyahs}</p>
-            <p>İndirildiği Yer: ${surah.revelationType}</p>
-            <a href="sure.html?surah=${surah.number}">Ayetleri Gör</a>
-            <hr/>
+            <p><strong>Ayet Sayısı:</strong> ${surah.numberOfAyahs}</p>
+            <p><strong>İndirildiği Yer:</strong> ${surah.revelationType}</p>
+            <a href="sure.html?surah=${surah.number}">➤ Ayetleri Gör</a>
           `;
           container.appendChild(div);
         });
@@ -52,7 +60,8 @@
         document.getElementById("surahList").textContent = "Hata oluştu: " + err;
       }
     }
+
     loadSurahs();
   </script>
 </body>
-    </html>
+</html>
