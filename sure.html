@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sure Detayı</title>
+</head>
+<body>
+  <h1 id="sureTitle"></h1>
+  <div id="ayetler"></div>
+
+  <script>
+    async function getSurahDetails() {
+      const params = new URLSearchParams(window.location.search);
+      const surahID = params.get("surah");
+      if (!surahID) {
+        document.body.innerHTML = "Sure ID bulunamadı.";
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://api.alquran.cloud/v1/surah/${surahID}/tr.diyanet`);
+        const data = await response.json();
+        document.getElementById("sureTitle").textContent = `${data.data.englishName} Suresi (${data.data.name})`;
+        
+        const container = document.getElementById("ayetler");
+        data.data.ayahs.forEach(ayet => {
+          const div = document.createElement("div");
+          div.innerHTML = `
+            <p><strong>${ayet.numberInSurah}. Ayet</strong></p>
+            <p>Arapça: ${ayet.text}</p>
+          `;
+          container.appendChild(div);
+        });
+      } catch (error) {
+        document.body.textContent = "Ayetler yüklenirken hata oluştu: " + error;
+      }
+    }
+    getSurahDetails();
+  </script>
+</body>
+  </html>
