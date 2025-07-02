@@ -95,7 +95,7 @@
 
     async function fetchRandomHadith() {
       try {
-        const number = Math.floor(Math.random() * 1000) + 1;
+        const number = Math.floor(Math.random() * 100) + 1;
         const res = await fetch(`https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/tur-bukhari/${number}.json`);
         const data = await res.json();
         currentHadith = `<strong>Buhari Hadisi #${data.data.hadithnumber}</strong><br>${data.data.text}`;
