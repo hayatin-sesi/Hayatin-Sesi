@@ -56,62 +56,94 @@
 </head>
 <body>
 
-  <h1>Gençlik Köşesi</h1>
+   <h1>🌱 Gençlik Köşesi</h1>
+  <label for="mood">Bugün nasıl hissediyorsun?</label>
+  <br><br>
+  <select id="mood" onchange="guncelleYazi()">
+    <option value="hepsi">-- Seçin --</option>
+    <option value="motivesiz">Motivasyona ihtiyacım var</option>
+    <option value="yalnız">Yalnız hissediyorum</option>
+    <option value="huzursuz">Huzursuzum</option>
+    <option value="şükür">Minnettar hissediyorum</option>
+    <option value="kararsız">Kararsızım</option>
+  </select>
 
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Yazılarda ara..." onkeyup="searchPosts()">
+  <div class="card">
+    <h3>Günün İlhamı</h3>
+    <p id="yaziMetni">Bir duygu seçimi yaparak başlayabilirsin...</p>
+    <div class="buttons">
+      <button class="fav" onclick="favoriKaydet()">⭐ Favori Ekle</button>
+      <button class="speak" onclick="seslendir()">🔊 Oku</button>
+      <button class="refresh" onclick="yeniYazi()">🔄 Yenile</button>
+    </div>
   </div>
 
-  <div id="genclikContainer"></div>
+  <div class="favorite-section">
+    <h3>⭐ Favori Yazın</h3>
+    <p id="favoriYazi">Henüz favori kaydedilmedi.</p>
+  </div>
 
   <script>
-    const yazilar = [
-      {
-        baslik: "Gerçek Arkadaşlık ve Dostluk",
-        ozet: "Arkadaş seçimi ve dostluğun önemi hakkında önemli tavsiyeler.",
-        detay: "Hayatınızdaki arkadaşlar sizi ya Allah'a yaklaştırır ya da uzaklaştırır. Dost seçerken güzel ahlaka, dürüstlüğe ve manevi değerlere dikkat etmek gerekir..."
-      },
-      {
-        baslik: "Sosyal Medya Bağımlılığından Kurtulmak",
-        ozet: "Sosyal medya bağımlılığını azaltmanın yolları.",
-        detay: "Sosyal medyada vakit kaybetmektense faydalı işlere yönelin. Zaman yönetimi yapın, uygulamalara sınır koyun ve boş anlarınızda dua ve zikir gibi manevi faaliyetlere yer verin..."
-      },
-      {
-        baslik: "Gençler İçin Motivasyon Kaynakları",
-        ozet: "Hedef koymak, plan yapmak ve manevi motivasyon.",
-        detay: "Kısa ve uzun vadeli hedefler belirlemek, her sabah niyet etmek, kendinizi geliştirmek için yeni şeyler öğrenmek genç yaşta çok önemlidir..."
+    const yazilar = {
+      motivesiz: [
+        "Hatalar başarıya giden merdivenin basamaklarıdır. Cesaretini kaybetme.",
+        "Zor günler, güçlü insanlar yetiştirir. Vazgeçme!"
+      ],
+      yalnız: [
+        "Yalnızlık geçicidir. Sen kıymetli birisin, seni bekleyen güzel bağlar var.",
+        "Her karanlık yalnızlıkta bile umut bir yerlerde parıldar."
+      ],
+      huzursuz: [
+        "Huzur dışarıda değil, içeride aranır. Bir dua, bir nefes yeter bazen.",
+        "Kimi zaman durmak, en doğru adımdır. Kalbin sesini duy."
+      ],
+      şükür: [
+        "Bugün sahip olduklarına içtenlikle şükret. Her şey seninle güzelleşir.",
+        "Minnettarlık, yüreğin en şifalı duasıdır."
+      ],
+      kararsız: [
+        "Harekete geçmeden doğru yolu göremezsin. Küçük bir adımla başla.",
+        "Bilinmezlik içinde bile bir rehber var: İç sesin."
+      ]
+    };
+
+    let aktifYazi = "";
+
+    function guncelleYazi() {
+      const mood = document.getElementById("mood").value;
+      if (mood === "hepsi") {
+        aktifYazi = "Bir duygu seçimi yaparak başlayabilirsin...";
+      } else {
+        const liste = yazilar[mood];
+        aktifYazi = liste[Math.floor(Math.random() * liste.length)];
       }
-    ];
-
-    function renderPosts(posts) {
-      const container = document.getElementById("genclikContainer");
-      container.innerHTML = "";
-      posts.forEach(yazi => {
-        const div = document.createElement("div");
-        div.className = "card";
-        div.innerHTML = `
-          <h2>${yazi.baslik}</h2>
-          <p>${yazi.ozet}</p>
-          <a onclick="showDetail('${yazi.detay.replace(/'/g, "\\'")}')">Devamını Oku</a>
-        `;
-        container.appendChild(div);
-      });
+      document.getElementById("yaziMetni").textContent = aktifYazi;
     }
 
-    function showDetail(detay) {
-      alert(detay);
+    function yeniYazi() {
+      guncelleYazi();
     }
 
-    function searchPosts() {
-      const query = document.getElementById("searchInput").value.toLowerCase();
-      const filtered = yazilar.filter(yazi =>
-        yazi.baslik.toLowerCase().includes(query) || yazi.ozet.toLowerCase().includes(query)
-      );
-      renderPosts(filtered);
+    function favoriKaydet() {
+      if (aktifYazi) {
+        localStorage.setItem("favoriYazi", aktifYazi);
+        document.getElementById("favoriYazi").textContent = aktifYazi;
+      }
     }
 
-    window.onload = () => renderPosts(yazilar);
+    function seslendir() {
+      if ('speechSynthesis' in window && aktifYazi) {
+        const msg = new SpeechSynthesisUtterance(aktifYazi);
+        msg.lang = 'tr-TR';
+        speechSynthesis.speak(msg);
+      }
+    }
+
+    // Favori yazıyı yükle
+    window.onload = () => {
+      const fav = localStorage.getItem("favoriYazi");
+      if (fav) document.getElementById("favoriYazi").textContent = fav;
+    };
   </script>
-
 </body>
-  </html>
+        </html>
