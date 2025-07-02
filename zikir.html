@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Günlük Hatırlatıcı</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      padding: 40px;
+      text-align: center;
+    }
+    .reminder {
+      background: #fff;
+      padding: 20px 30px;
+      border-left: 5px solid #00aa55;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: inline-block;
+    }
+    .reminder h2 {
+      color: #007744;
+      margin-bottom: 15px;
+    }
+    .reminder p {
+      color: #333;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="reminder">
+    <h2>Günün Hatırlatıcısı</h2>
+    <p id="dailyContent">Yükleniyor...</p>
+  </div>
+
+  <script>
+    const contents = [
+      "“İyilik ve takva üzerine yardımlaşın.” (Maide, 2)",
+      "“Rabbim! Gönlümü aç, işimi kolaylaştır.” (Taha, 25-26)",
+      "“Hiç kimse, kardeşi için istediğini kendisi için istemedikçe iman etmiş olmaz.” (Buhari, İman, 7)",
+      "“Allah sabredenlerle beraberdir.” (Bakara, 153)",
+      "“Kolaylaştırın, zorlaştırmayın; müjdeleyin, nefret ettirmeyin.” (Buhari, İlim, 11)"
+      // istediğin kadar içerik ekleyebilirsin
+    ];
+
+    function showDailyContent() {
+      const today = new Date();
+      const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+      const index = dayOfYear % contents.length;
+      document.getElementById("dailyContent").textContent = contents[index];
+    }
+
+    showDailyContent();
+  </script>
+</body>
+</html>
