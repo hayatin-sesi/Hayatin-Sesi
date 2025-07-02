@@ -24,6 +24,24 @@
     h1 {
       color: #007744;
     }
+    .favori-btn {
+      margin-top: 8px;
+      display: inline-block;
+      padding: 5px 10px;
+      color: #fff;
+      background: #007744;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .favori-btn.added {
+      background: #555;
+    }
+    audio {
+      width: 100%;
+      margin-top: 8px;
+    }
   </style>
 </head>
 <body>
@@ -54,17 +72,62 @@
         const container = document.getElementById("ayetler");
         arabicData.data.ayahs.forEach((arabicAyah, index) => {
           const turkishAyah = turkishData.data.ayahs[index];
+
+          // Basit transliterasyon (Türkçe okunuş) - demonstrasyon için:
+          const transliteration = arabicAyah.text
+            .replace(/ا/g, "a")
+            .replace(/ب/g, "b")
+            .replace(/ت/g, "t")
+            .replace(/ث/g, "s")
+            .replace(/ج/g, "c")
+            .replace(/ح/g, "h")
+            .replace(/خ/g, "h")
+            .replace(/د/g, "d")
+            .replace(/ر/g, "r")
+            .replace(/س/g, "s")
+            .replace(/ش/g, "ş")
+            .replace(/ص/g, "s")
+            .replace(/ط/g, "t")
+            .replace(/ع/g, "‘")
+            .replace(/ف/g, "f")
+            .replace(/ق/g, "k")
+            .replace(/ك/g, "k")
+            .replace(/ل/g, "l")
+            .replace(/م/g, "m")
+            .replace(/ن/g, "n")
+            .replace(/ه/g, "h")
+            .replace(/و/g, "v")
+            .replace(/ي/g, "y");
+
           const div = document.createElement("div");
           div.className = "ayah";
           div.innerHTML = `
             <p><strong>${arabicAyah.numberInSurah}. Ayet</strong></p>
             <p><strong>Arapça:</strong> ${arabicAyah.text}</p>
+            <p><strong>Okunuş:</strong> ${transliteration}</p>
             <p><strong>Türkçe:</strong> ${turkishAyah.text}</p>
+            <audio controls>
+              <source src="${arabicAyah.audio}" type="audio/mpeg">
+              Tarayıcınız ses oynatmayı desteklemiyor.
+            </audio>
+            <button class="favori-btn" onclick="addToFavorites(${surahID}, ${arabicAyah.numberInSurah})">Favorilere Ekle</button>
           `;
           container.appendChild(div);
         });
       } catch (error) {
         document.body.textContent = "Ayetler yüklenirken hata oluştu: " + error;
+      }
+    }
+
+    function addToFavorites(surahID, ayahNumber) {
+      const favs = JSON.parse(localStorage.getItem('favorites') || "[]");
+      const favKey = `${surahID}:${ayahNumber}`;
+      if (!favs.includes(favKey)) {
+        favs.push(favKey);
+        localStorage.setItem('favorites', JSON.stringify(favs));
+        alert(`Ayet favorilere eklendi: ${favKey}`);
+      } else {
+        alert("Bu ayet zaten favorilere eklenmiş.");
       }
     }
 
