@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>Günlük Hatırlatıcı</title>
+  <title>Günün Ayeti ve Hadisi</title>
   <style>
     body {
       font-family: sans-serif;
@@ -17,6 +17,9 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       display: inline-block;
+      max-width: 650px;
+      position: relative;
+      margin-bottom: 30px;
     }
     .reminder h2 {
       color: #007744;
@@ -25,33 +28,110 @@
     .reminder p {
       color: #333;
       font-size: 1.1rem;
+      line-height: 1.4;
+    }
+    .favorite-btn {
+      margin-top: 15px;
+      background: #00aa55;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .favorite-btn:hover {
+      background: #007744;
+    }
+    .favorite-section {
+      margin-top: 40px;
+      text-align: center;
+    }
+    .favorite-section h3 {
+      color: #007744;
+    }
+    .favorite-section p {
+      color: #333;
+      font-size: 1rem;
     }
   </style>
 </head>
 <body>
   <div class="reminder">
-    <h2>Günün Hatırlatıcısı</h2>
-    <p id="dailyContent">Yükleniyor...</p>
+    <h2>📖 Günün Ayeti</h2>
+    <p id="dailyAyah">Yükleniyor...</p>
+    <button class="favorite-btn" onclick="saveFavorite('Ayah')">⭐ Favorilere Ekle</button>
+  </div>
+
+  <div class="reminder">
+    <h2>🕋 Günün Hadisi</h2>
+    <p id="dailyHadith">Yükleniyor...</p>
+    <button class="favorite-btn" onclick="saveFavorite('Hadith')">⭐ Favorilere Ekle</button>
+  </div>
+
+  <div class="favorite-section">
+    <h3>⭐ Favori Ayetin</h3>
+    <p id="favoriteAyah">Henüz favori ayet seçilmedi.</p>
+    <h3>⭐ Favori Hadisin</h3>
+    <p id="favoriteHadith">Henüz favori hadis seçilmedi.</p>
   </div>
 
   <script>
-    const contents = [
-      "“İyilik ve takva üzerine yardımlaşın.” (Maide, 2)",
-      "“Rabbim! Gönlümü aç, işimi kolaylaştır.” (Taha, 25-26)",
-      "“Hiç kimse, kardeşi için istediğini kendisi için istemedikçe iman etmiş olmaz.” (Buhari, İman, 7)",
-      "“Allah sabredenlerle beraberdir.” (Bakara, 153)",
-      "“Kolaylaştırın, zorlaştırmayın; müjdeleyin, nefret ettirmeyin.” (Buhari, İlim, 11)"
-      // istediğin kadar içerik ekleyebilirsin
-    ];
+    let currentAyah = "";
+    let currentHadith = "";
 
-    function showDailyContent() {
-      const today = new Date();
-      const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
-      const index = dayOfYear % contents.length;
-      document.getElementById("dailyContent").textContent = contents[index];
+    async function fetchRandomAyah() {
+      try {
+        const number = Math.floor(Math.random() * 6236) + 1;
+        const res = await fetch(`https://api.alquran.cloud/v1/ayah/${number}/tr.diyanet`);
+        const data = await res.json();
+        currentAyah = `<strong>${data.data.surah.englishName} ${data.data.numberInSurah}. Ayet</strong><br>${data.data.text}`;
+        document.getElementById("dailyAyah").innerHTML = currentAyah;
+      } catch {
+        document.getElementById("dailyAyah").textContent = "Ayet yüklenirken hata oluştu.";
+      }
     }
 
-    showDailyContent();
+    async function fetchRandomHadith() {
+      try {
+        const number = Math.floor(Math.random() * 1000) + 1;
+        const res = await fetch(`https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/tur-bukhari/${number}.json`);
+        const data = await res.json();
+        currentHadith = `<strong>Buhari Hadisi #${data.data.hadithnumber}</strong><br>${data.data.text}`;
+        document.getElementById("dailyHadith").innerHTML = currentHadith;
+      } catch {
+        document.getElementById("dailyHadith").textContent = "Hadis yüklenirken hata oluştu.";
+      }
+    }
+
+    function saveFavorite(type) {
+      if (type === "Ayah" && currentAyah) {
+        localStorage.setItem("favoriteAyah", currentAyah);
+        displayFavorite("Ayah");
+      }
+      if (type === "Hadith" && currentHadith) {
+        localStorage.setItem("favoriteHadith", currentHadith);
+        displayFavorite("Hadith");
+      }
+    }
+
+    function displayFavorite(type) {
+      if (type === "Ayah") {
+        const fav = localStorage.getItem("favoriteAyah");
+        document.getElementById("favoriteAyah").innerHTML = fav || "Henüz favori ayet seçilmedi.";
+      }
+      if (type === "Hadith") {
+        const fav = localStorage.getItem("favoriteHadith");
+        document.getElementById("favoriteHadith").innerHTML = fav || "Henüz favori hadis seçilmedi.";
+      }
+    }
+
+    // Sayfa yüklendiğinde getir
+    fetchRandomAyah();
+    fetchRandomHadith();
+    displayFavorite("Ayah");
+    displayFavorite("Hadith");
   </script>
 </body>
 </html>
