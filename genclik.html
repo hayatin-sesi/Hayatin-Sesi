@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gençlik Köşesi | Hayatın Sesi</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #0a2e1a;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #00ff88;
+      margin-bottom: 20px;
+    }
+    #genclikContainer {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .card {
+      background-color: rgba(0, 0, 0, 0.7);
+      margin-bottom: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 5px solid #00ff88;
+    }
+    .card h2 {
+      margin: 0 0 10px;
+      color: #c0ffc8;
+    }
+    .card p {
+      color: #e2ffe7;
+    }
+    .card a {
+      color: #00ff88;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .search-bar {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .search-bar input {
+      width: 80%;
+      max-width: 400px;
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Gençlik Köşesi</h1>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Yazılarda ara..." onkeyup="searchPosts()">
+  </div>
+
+  <div id="genclikContainer"></div>
+
+  <script>
+    const yazilar = [
+      {
+        baslik: "Gerçek Arkadaşlık ve Dostluk",
+        ozet: "Arkadaş seçimi ve dostluğun önemi hakkında önemli tavsiyeler.",
+        detay: "Hayatınızdaki arkadaşlar sizi ya Allah'a yaklaştırır ya da uzaklaştırır. Dost seçerken güzel ahlaka, dürüstlüğe ve manevi değerlere dikkat etmek gerekir..."
+      },
+      {
+        baslik: "Sosyal Medya Bağımlılığından Kurtulmak",
+        ozet: "Sosyal medya bağımlılığını azaltmanın yolları.",
+        detay: "Sosyal medyada vakit kaybetmektense faydalı işlere yönelin. Zaman yönetimi yapın, uygulamalara sınır koyun ve boş anlarınızda dua ve zikir gibi manevi faaliyetlere yer verin..."
+      },
+      {
+        baslik: "Gençler İçin Motivasyon Kaynakları",
+        ozet: "Hedef koymak, plan yapmak ve manevi motivasyon.",
+        detay: "Kısa ve uzun vadeli hedefler belirlemek, her sabah niyet etmek, kendinizi geliştirmek için yeni şeyler öğrenmek genç yaşta çok önemlidir..."
+      }
+    ];
+
+    function renderPosts(posts) {
+      const container = document.getElementById("genclikContainer");
+      container.innerHTML = "";
+      posts.forEach(yazi => {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `
+          <h2>${yazi.baslik}</h2>
+          <p>${yazi.ozet}</p>
+          <a onclick="showDetail('${yazi.detay.replace(/'/g, "\\'")}')">Devamını Oku</a>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function showDetail(detay) {
+      alert(detay);
+    }
+
+    function searchPosts() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const filtered = yazilar.filter(yazi =>
+        yazi.baslik.toLowerCase().includes(query) || yazi.ozet.toLowerCase().includes(query)
+      );
+      renderPosts(filtered);
+    }
+
+    window.onload = () => renderPosts(yazilar);
+  </script>
+
+</body>
+  </html>
