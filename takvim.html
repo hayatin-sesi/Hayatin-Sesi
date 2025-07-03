@@ -36,26 +36,34 @@
     async function loadToday() {
       const todayDiv = document.getElementById("today");
       try {
-        const res = await fetch("https://api.aladhan.com/v1/gToH?date=" + new Date().toLocaleDateString('en-CA'));
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const year = today.getFullYear();
+        const dateStr = `${day}-${month}-${year}`; // API bu formatı bekliyor: DD-MM-YYYY
+
+        const res = await fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}`);
         const data = await res.json();
+
+        if (!data || !data.data || !data.data.hijri) throw "Hicri tarih alınamadı.";
         const hijri = data.data.hijri;
-        todayDiv.textContent = `Bugün: ${new Date().toLocaleDateString()} / ${hijri.day} ${hijri.month.en} ${hijri.year} H`;
+        todayDiv.textContent = `Bugün: ${today.toLocaleDateString('tr-TR')} / ${hijri.day} ${hijri.month.tr} ${hijri.year} H`;
       } catch (err) {
+        console.error(err);
         todayDiv.textContent = "Bugünün tarihi yüklenemedi.";
       }
     }
 
     function renderCalendar() {
       const calendarDiv = document.getElementById("calendar");
+      calendarDiv.innerHTML = ""; // önceden oluşanları temizle
       for (let i = 1; i <= 30; i++) {
         const dayDiv = document.createElement("div");
         dayDiv.className = "day";
         dayDiv.innerHTML = `<strong>${i}</strong><br><small>Hicri ${i}</small>`;
 
-        // Örnek önemli gün işaretleme
         if (i === 10) dayDiv.classList.add("important");
 
-        // Oruç işareti kontrolü
         if (localStorage.getItem("fasted_" + i) === "true") {
           dayDiv.classList.add("fasted");
         }
@@ -74,4 +82,4 @@
     renderCalendar();
   </script>
 </body>
-  </html>
+</html>
