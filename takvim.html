@@ -23,16 +23,29 @@
   <div class="important-days">
     <h2>Önemli Günler</h2>
     <div>
-      <strong>Aşure Günü</strong><br>
-      10 Muharrem – Aşure günü oruç tutmak çok faziletlidir.
+      <strong>1 Muharrem - Hicri Yılbaşı</strong><br>
+      Hicri yılın başlangıcı, yeni bir manevi başlangıç fırsatı.
     </div>
     <div>
-      <strong>Mevlid Kandili</strong><br>
-      12 Rebiülevvel – Efendimiz (sav)ʼin doğumu.
+      <strong>10 Muharrem - Aşure Günü</strong><br>
+      Aşure günü oruç tutmak çok faziletlidir.
+    </div>
+    <div>
+      <strong>12 Rebiülevvel - Mevlid Kandili</strong><br>
+      Efendimiz (sav)ʼin doğumu.
+    </div>
+    <div>
+      <strong>27 Recep - Miraç Kandili</strong><br>
+      Peygamber Efendimiz (sav)ʼin göğe yükseldiği gece.
+    </div>
+    <div>
+      <strong>15 Şaban - Berat Kandili</strong><br>
+      Kulların günahlarının affedildiği gece.
     </div>
   </div>
 
   <script>
+    const importantDays = [1, 10, 12, 27, 15]; // hicri ay içindeki önemli günler
     async function loadToday() {
       const todayDiv = document.getElementById("today");
       try {
@@ -40,7 +53,7 @@
         const day = String(today.getDate()).padStart(2, '0');
         const month = String(today.getMonth() + 1).padStart(2, '0');
         const year = today.getFullYear();
-        const dateStr = `${day}-${month}-${year}`; // API bu formatı bekliyor: DD-MM-YYYY
+        const dateStr = `${day}-${month}-${year}`; // API DD-MM-YYYY bekliyor
 
         const res = await fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}`);
         const data = await res.json();
@@ -56,13 +69,15 @@
 
     function renderCalendar() {
       const calendarDiv = document.getElementById("calendar");
-      calendarDiv.innerHTML = ""; // önceden oluşanları temizle
+      calendarDiv.innerHTML = "";
       for (let i = 1; i <= 30; i++) {
         const dayDiv = document.createElement("div");
         dayDiv.className = "day";
         dayDiv.innerHTML = `<strong>${i}</strong><br><small>Hicri ${i}</small>`;
 
-        if (i === 10) dayDiv.classList.add("important");
+        if (importantDays.includes(i)) {
+          dayDiv.classList.add("important");
+        }
 
         if (localStorage.getItem("fasted_" + i) === "true") {
           dayDiv.classList.add("fasted");
