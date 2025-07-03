@@ -5,11 +5,60 @@
   <title>Zikir & Tesbihat</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body { font-family: sans-serif; background: #f0f0f0; padding: 20px; text-align: center; }
-    .zikir-box { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 10px #aaa; }
-    .zikir-btn { background: #00aa55; color: #fff; border: none; padding: 15px 25px; margin: 10px; font-size: 1.2rem; border-radius: 8px; cursor: pointer; }
-    .counter { font-size: 2rem; margin: 15px 0; color: #007744; }
-    canvas { margin: 30px auto; max-width: 600px; }
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #e0ffe0, #ccffcc);
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+    }
+    .zikir-box {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      margin-bottom: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 128, 64, 0.4);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+    .zikir-btn {
+      background: #00aa55;
+      color: #fff;
+      border: none;
+      padding: 15px 25px;
+      margin: 8px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .zikir-btn:hover {
+      background: #007744;
+    }
+    .counter {
+      font-size: 2.2rem;
+      margin: 15px 0;
+      color: #007744;
+    }
+    canvas {
+      margin: 30px auto;
+      max-width: 600px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 128, 64, 0.2);
+      padding: 15px;
+    }
+    h1 {
+      color: #004422;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px #fff;
+    }
   </style>
 </head>
 <body>
@@ -22,7 +71,7 @@
     <button class="zikir-btn" onclick="increment()">Zikir Çek</button>
     <button class="zikir-btn" onclick="reset()">Sıfırla</button>
     <button class="zikir-btn" onclick="nextZikir()">Zikri Değiştir</button>
-    <p>Toplam çekilen zikir: <span id="totalCount">0</span></p>
+    <p>Toplam zikir: <span id="totalCount">0</span></p>
   </div>
 
   <canvas id="zikirChart"></canvas>
@@ -30,12 +79,43 @@
   <script>
     const zikirList = [
       { name: "Sübhanallah", target: 33 },
-      { name: "Elhamdülillah", target: 33 },
-      { name: "Allahu Ekber", target: 34 }
+  { name: "Elhamdülillah", target: 33 },
+  { name: "Allahu Ekber", target: 34 },
+  { name: "Lâ ilahe illallah", target: 50 },
+  { name: "Astaghfirullah", target: 100 },
+  { name: "Ya Rahman", target: 50 },
+  { name: "Ya Rahim", target: 50 },
+  { name: "La havle ve la kuvvete illa billah", target: 33 },
+  { name: "Hasbunallahu ve ni'mel vekil", target: 33 },
+  { name: "Subhanallahi ve bihamdihi", target: 100 },
+  { name: "Allahümme salli alâ Muhammed", target: 100 },
+  { name: "Rabbi ğfir li", target: 100 },
+  { name: "Ya Gafur", target: 50 },
+  { name: "Ya Vedud", target: 50 },
+  { name: "Ya Latif", target: 50 },
+  { name: "Ya Şafi", target: 50 },
+  { name: "Ya Fettah", target: 50 },
+  { name: "Ya Kadir", target: 50 },
+  { name: "Ya Hayyu ya Kayyum", target: 100 },
+  { name: "Allahümme inni es'elüke’l-afve ve’l-afiyete", target: 33 },
+  { name: "Ya Allah", target: 66 },
+  { name: "Ya Hannan", target: 50 },
+  { name: "Ya Mennan", target: 50 },
+  { name: "Ya Hafiz", target: 50 },
+  { name: "Ya Nur", target: 50 },
+  { name: "Ya Salam", target: 50 },
+  { name: "Ya Muin", target: 50 },
+  { name: "La ilahe illa ente subhaneke inni kuntu mine’z-zalimin", target: 33 },
+  { name: "Rabbi zidni ilma", target: 33 },
+  { name: "Ya Rezzak", target: 50 },
+  { name: "Ya Halim", target: 50 },
+  { name: "Ya Kerim", target: 50 },
+  { name: "Ya Rab", target: 100 },
+  { name: "Allahümme ecirna minen nar", target: 7 }
     ];
     let currentZikirIndex = 0;
     let totalCount = 0;
-    let dailyCounts = Array(7).fill(0); // 7 günlük sayaç
+    let dailyCounts = Array(7).fill(0);
     let currentCount = 0;
 
     const zikirTitle = document.getElementById("currentZikir");
@@ -73,7 +153,7 @@
     function increment() {
       currentCount++;
       totalCount++;
-      const day = new Date().getDay(); // 0-Pazar, 1-Pzt...
+      const day = new Date().getDay();
       dailyCounts[day === 0 ? 6 : day - 1]++;
       if (currentCount >= zikirList[currentZikirIndex].target) celebrate();
       updateDisplay();
@@ -92,7 +172,7 @@
 
     function celebrate() {
       const confetti = document.createElement("div");
-      confetti.innerHTML = "🎉 Hedefe Ulaştınız!";
+      confetti.innerHTML = "🎉 Hedef Tamamlandı!";
       confetti.style.position = "fixed";
       confetti.style.top = "40%";
       confetti.style.left = "50%";
@@ -102,6 +182,7 @@
       confetti.style.padding = "20px 40px";
       confetti.style.borderRadius = "12px";
       confetti.style.boxShadow = "0 0 20px #00aa55";
+      confetti.style.zIndex = 9999;
       document.body.appendChild(confetti);
       setTimeout(() => document.body.removeChild(confetti), 3000);
     }
@@ -109,4 +190,4 @@
     updateDisplay();
   </script>
 </body>
-</html>
+    </html>
