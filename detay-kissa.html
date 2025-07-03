@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kıssa Detayı</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    .kissa-detail {
+      background: #fff;
+      padding: 20px;
+      border-left: 5px solid #004d40;
+      border-radius: 8px;
+    }
+    .kissa-detail h2 {
+      color: #004d40;
+      margin-top: 0;
+    }
+    .kissa-detail p {
+      color: #333;
+      line-height: 1.5;
+    }
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #004d40;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="kissa-detail">
+    <h2 id="kissaTitle"></h2>
+    <p id="kissaContent"></p>
+    <a href="kissadan-hisse.html">← Geri Dön</a>
+  </div>
+
+  <script>
+    const kissas = [
+      {
+        id: 1,
+        baslik: 'Hz. İbrahim ve Nemrut',
+        detay: 'Hz. İbrahim (a.s.) putları kırarak insanları Allah’a yönelmeye davet etti. Nemrut ise ona karşı çıktı. Ateşe atılmasına rağmen Allah, Hz. İbrahim’i ateşten korudu.'
+      },
+      {
+        id: 2,
+        baslik: 'Hz. Bilal’in Sabır Örneği',
+        detay: 'Hz. Bilal (r.a.), imanından dönmesi için işkenceye maruz kaldı ama “Ahad, Ahad” diyerek Allah’ın birliğini haykırdı. Sabır ve sadakatin örneğidir.'
+      },
+      {
+        id: 3,
+        baslik: 'Bedir Savaşı',
+        detay: 'Bedir Savaşı, Müslümanlar için ilk büyük savaştı. Allah’ın yardımıyla Müslümanlar zafer kazandı, iman ve birlik güçlendi.'
+      }
+    ];
+
+    const params = new URLSearchParams(window.location.search);
+    const kissaID = parseInt(params.get('id'));
+
+    const kissa = kissas.find(k => k.id === kissaID);
+
+    if (kissa) {
+      document.getElementById('kissaTitle').textContent = kissa.baslik;
+      document.getElementById('kissaContent').textContent = kissa.detay;
+    } else {
+      document.querySelector('.kissa-detail').innerHTML = '<p>Kıssa bulunamadı.</p><a href="kissadan-hisse.html">← Geri Dön</a>';
+    }
+  </script>
+</body>
+</html>
