@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>İslami Takvim ve Oruç Takibi</title>
+  <style>
+    body { font-family: sans-serif; background: #f0fdf4; color: #333; padding: 20px; }
+    h1 { color: #007744; }
+    #today { font-size: 1.2rem; margin-bottom: 20px; }
+    .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+    .day { background: #fff; padding: 10px; border-radius: 6px; text-align: center; cursor: pointer; transition: 0.2s; }
+    .day:hover { transform: scale(1.05); }
+    .day.important { background: #ff9900; color: #fff; }
+    .day.fasted { background: #00aa55; color: #fff; }
+    .important-days { margin-top: 30px; }
+    .important-days div { background: #fff; padding: 12px; margin: 10px 0; border-left: 5px solid #ff9900; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>İslami Takvim ve Oruç Takibi</h1>
+  <div id="today">Yükleniyor...</div>
+  <div class="calendar" id="calendar"></div>
+  <div class="important-days">
+    <h2>Önemli Günler</h2>
+    <div>
+      <strong>Aşure Günü</strong><br>
+      10 Muharrem – Aşure günü oruç tutmak çok faziletlidir.
+    </div>
+    <div>
+      <strong>Mevlid Kandili</strong><br>
+      12 Rebiülevvel – Efendimiz (sav)ʼin doğumu.
+    </div>
+  </div>
+
+  <script>
+    async function loadToday() {
+      const todayDiv = document.getElementById("today");
+      try {
+        const res = await fetch("https://api.aladhan.com/v1/gToH?date=" + new Date().toLocaleDateString('en-CA'));
+        const data = await res.json();
+        const hijri = data.data.hijri;
+        todayDiv.textContent = `Bugün: ${new Date().toLocaleDateString()} / ${hijri.day} ${hijri.month.en} ${hijri.year} H`;
+      } catch (err) {
+        todayDiv.textContent = "Bugünün tarihi yüklenemedi.";
+      }
+    }
+
+    function renderCalendar() {
+      const calendarDiv = document.getElementById("calendar");
+      for (let i = 1; i <= 30; i++) {
+        const dayDiv = document.createElement("div");
+        dayDiv.className = "day";
+        dayDiv.innerHTML = `<strong>${i}</strong><br><small>Hicri ${i}</small>`;
+
+        // Örnek önemli gün işaretleme
+        if (i === 10) dayDiv.classList.add("important");
+
+        // Oruç işareti kontrolü
+        if (localStorage.getItem("fasted_" + i) === "true") {
+          dayDiv.classList.add("fasted");
+        }
+
+        dayDiv.addEventListener("click", () => {
+          const isFasted = localStorage.getItem("fasted_" + i) === "true";
+          localStorage.setItem("fasted_" + i, !isFasted);
+          dayDiv.classList.toggle("fasted");
+        });
+
+        calendarDiv.appendChild(dayDiv);
+      }
+    }
+
+    loadToday();
+    renderCalendar();
+  </script>
+</body>
+  </html>
