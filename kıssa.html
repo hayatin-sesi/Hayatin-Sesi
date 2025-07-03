@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kıssadan Hisse</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    h1 {
+      color: #004d40;
+      text-align: center;
+    }
+    .filters {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .filters button {
+      margin: 5px;
+      padding: 8px 16px;
+      background: #004d40;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .kissa-card {
+      background: #fff;
+      margin: 10px 0;
+      padding: 15px;
+      border-left: 5px solid #004d40;
+      border-radius: 8px;
+    }
+    .kissa-card h3 {
+      margin: 0 0 8px;
+      color: #004d40;
+    }
+    .kissa-card p {
+      margin: 0 0 10px;
+      color: #333;
+    }
+    .kissa-card a {
+      color: #004d40;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kıssadan Hisse</h1>
+  <div class="filters">
+    <button onclick="filterKissas('hepsi')">Tümü</button>
+    <button onclick="filterKissas('peygamber')">Peygamber Kıssaları</button>
+    <button onclick="filterKissas('sahabe')">Sahabe Hayatları</button>
+    <button onclick="filterKissas('tarih')">İslam Tarihi</button>
+  </div>
+  <div id="kissaContainer"></div>
+
+  <script>
+    const kissas = [
+      {
+        id: 1,
+        kategori: 'peygamber',
+        baslik: 'Hz. İbrahim ve Nemrut',
+        ozet: 'Hz. İbrahim’in putları kırması ve Nemrut’un karşı koyuşu...',
+        detay: 'detay-kissa.html?id=1'
+      },
+      {
+        id: 2,
+        kategori: 'sahabe',
+        baslik: 'Hz. Bilal’in Sabır Örneği',
+        ozet: 'Hz. Bilal (r.a.), İslam’a davet için sabrı ve cesaretiyle...',
+        detay: 'detay-kissa.html?id=2'
+      },
+      {
+        id: 3,
+        kategori: 'tarih',
+        baslik: 'Bedir Savaşı',
+        ozet: 'İslam tarihinde önemli dönüm noktalarından biri olan Bedir...',
+        detay: 'detay-kissa.html?id=3'
+      }
+    ];
+
+    function renderKissas(data) {
+      const container = document.getElementById('kissaContainer');
+      container.innerHTML = '';
+      data.forEach(kissa => {
+        const div = document.createElement('div');
+        div.className = 'kissa-card';
+        div.innerHTML = `
+          <h3>${kissa.baslik}</h3>
+          <p>${kissa.ozet}</p>
+          <a href="${kissa.detay}">Devamını Oku</a>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function filterKissas(kategori) {
+      if (kategori === 'hepsi') {
+        renderKissas(kissas);
+      } else {
+        const filtered = kissas.filter(kissa => kissa.kategori === kategori);
+        renderKissas(filtered);
+      }
+    }
+
+    window.onload = () => {
+      renderKissas(kissas);
+    };
+  </script>
+</body>
+</html>
