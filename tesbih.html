@@ -2,85 +2,111 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>Zikir ve Tesbihat Sayacı</title>
+  <title>Zikir & Tesbihat</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body {
-      font-family: sans-serif;
-      background: #f0f0f0;
-      padding: 30px;
-      text-align: center;
-    }
-    h1 {
-      color: #007744;
-      margin-bottom: 20px;
-    }
-    #counter {
-      font-size: 3rem;
-      margin: 20px 0;
-      color: #00aa55;
-    }
-    button {
-      font-size: 1.2rem;
-      padding: 10px 20px;
-      margin: 5px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      color: white;
-    }
-    .increment {
-      background: #00aa55;
-    }
-    .reset {
-      background: #aa0000;
-    }
-    #message {
-      margin-top: 20px;
-      font-weight: bold;
-      color: #007744;
-    }
+    body { font-family: sans-serif; background: #f0f0f0; padding: 20px; text-align: center; }
+    .zikir-box { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 10px #aaa; }
+    .zikir-btn { background: #00aa55; color: #fff; border: none; padding: 15px 25px; margin: 10px; font-size: 1.2rem; border-radius: 8px; cursor: pointer; }
+    .counter { font-size: 2rem; margin: 15px 0; color: #007744; }
+    canvas { margin: 30px auto; max-width: 600px; }
   </style>
 </head>
 <body>
-  <h1>Zikir ve Tesbihat Sayacı</h1>
+  <h1>Zikir ve Tesbihat</h1>
 
-  <div>
-    <p>Hedef: <strong id="target">100</strong> zikir</p>
-    <div id="counter">0</div>
-    <button class="increment" onclick="incrementCounter()">+1</button>
-    <button class="reset" onclick="resetCounter()">Sıfırla</button>
-    <p id="message"></p>
+  <div class="zikir-box">
+    <h2 id="currentZikir">Sübhanallah</h2>
+    <p class="counter">Sayım: <span id="currentCount">0</span></p>
+    <p>Hedef: <span id="targetCount">33</span></p>
+    <button class="zikir-btn" onclick="increment()">Zikir Çek</button>
+    <button class="zikir-btn" onclick="reset()">Sıfırla</button>
+    <button class="zikir-btn" onclick="nextZikir()">Zikri Değiştir</button>
+    <p>Toplam çekilen zikir: <span id="totalCount">0</span></p>
   </div>
 
+  <canvas id="zikirChart"></canvas>
+
   <script>
-    const target = 100;
-    document.getElementById('target').textContent = target;
-    let count = parseInt(localStorage.getItem("zikirCounter")) || 0;
-    const counterEl = document.getElementById("counter");
-    const messageEl = document.getElementById("message");
-    counterEl.textContent = count;
+    const zikirList = [
+      { name: "Sübhanallah", target: 33 },
+      { name: "Elhamdülillah", target: 33 },
+      { name: "Allahu Ekber", target: 34 }
+    ];
+    let currentZikirIndex = 0;
+    let totalCount = 0;
+    let dailyCounts = Array(7).fill(0); // 7 günlük sayaç
+    let currentCount = 0;
 
-    function incrementCounter() {
-      count++;
-      localStorage.setItem("zikirCounter", count);
-      counterEl.textContent = count;
-      checkTarget();
-    }
+    const zikirTitle = document.getElementById("currentZikir");
+    const countDisplay = document.getElementById("currentCount");
+    const targetDisplay = document.getElementById("targetCount");
+    const totalDisplay = document.getElementById("totalCount");
 
-    function resetCounter() {
-      count = 0;
-      localStorage.setItem("zikirCounter", count);
-      counterEl.textContent = count;
-      messageEl.textContent = "";
-    }
-
-    function checkTarget() {
-      if (count >= target) {
-        messageEl.textContent = "🎉 Tebrikler! Hedefinize ulaştınız!";
-      } else {
-        messageEl.textContent = "";
+    const ctx = document.getElementById('zikirChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Pzt', 'Salı', 'Çrş', 'Perş', 'Cuma', 'Cmt', 'Paz'],
+        datasets: [{
+          label: 'Günlük Zikir',
+          data: dailyCounts,
+          backgroundColor: '#00aa55'
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { precision:0 } } }
       }
+    });
+
+    function updateDisplay() {
+      const zikir = zikirList[currentZikirIndex];
+      zikirTitle.textContent = zikir.name;
+      targetDisplay.textContent = zikir.target;
+      countDisplay.textContent = currentCount;
+      totalDisplay.textContent = totalCount;
+      chart.data.datasets[0].data = dailyCounts;
+      chart.update();
     }
+
+    function increment() {
+      currentCount++;
+      totalCount++;
+      const day = new Date().getDay(); // 0-Pazar, 1-Pzt...
+      dailyCounts[day === 0 ? 6 : day - 1]++;
+      if (currentCount >= zikirList[currentZikirIndex].target) celebrate();
+      updateDisplay();
+    }
+
+    function reset() {
+      currentCount = 0;
+      updateDisplay();
+    }
+
+    function nextZikir() {
+      currentZikirIndex = (currentZikirIndex + 1) % zikirList.length;
+      currentCount = 0;
+      updateDisplay();
+    }
+
+    function celebrate() {
+      const confetti = document.createElement("div");
+      confetti.innerHTML = "🎉 Hedefe Ulaştınız!";
+      confetti.style.position = "fixed";
+      confetti.style.top = "40%";
+      confetti.style.left = "50%";
+      confetti.style.fontSize = "2rem";
+      confetti.style.transform = "translate(-50%, -50%)";
+      confetti.style.background = "#fff";
+      confetti.style.padding = "20px 40px";
+      confetti.style.borderRadius = "12px";
+      confetti.style.boxShadow = "0 0 20px #00aa55";
+      document.body.appendChild(confetti);
+      setTimeout(() => document.body.removeChild(confetti), 3000);
+    }
+
+    updateDisplay();
   </script>
 </body>
-                         </html>
+</html>
