@@ -1,103 +1,111 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>İslami Takvim ve Oruç Takibi</title>
   <style>
-    body { font-family: sans-serif; background: #f0fdf4; color: #333; padding: 20px; }
-    h1 { color: #007744; }
-    #today { font-size: 1.2rem; margin-bottom: 20px; }
-    .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
-    .day { background: #fff; padding: 10px; border-radius: 6px; text-align: center; cursor: pointer; transition: 0.2s; }
-    .day:hover { transform: scale(1.05); }
-    .day.important { background: #ff9900; color: #fff; }
-    .day.fasted { background: #00aa55; color: #fff; }
-    .important-days { margin-top: 30px; }
-    .important-days div { background: #fff; padding: 12px; margin: 10px 0; border-left: 5px solid #ff9900; border-radius: 6px; }
+    body {
+      font-family: sans-serif;
+      background: #f5fff5;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #008c4a;
+    }
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .day {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+      border-radius: 6px;
+    }
+    .today {
+      background: #ffda6c;
+      font-weight: bold;
+    }
+    .important-day {
+      background: #f0fff0;
+      border-left: 5px solid #008c4a;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 6px;
+    }
   </style>
 </head>
 <body>
   <h1>İslami Takvim ve Oruç Takibi</h1>
-  <div id="today">Yükleniyor...</div>
+  <p id="today">Bugünün tarihi yükleniyor...</p>
+
   <div class="calendar" id="calendar"></div>
-  <div class="important-days">
-    <h2>Önemli Günler</h2>
-    <div>
-      <strong>1 Muharrem - Hicri Yılbaşı</strong><br>
-      Hicri yılın başlangıcı, yeni bir manevi başlangıç fırsatı.
-    </div>
-    <div>
-      <strong>10 Muharrem - Aşure Günü</strong><br>
-      Aşure günü oruç tutmak çok faziletlidir.
-    </div>
-    <div>
-      <strong>12 Rebiülevvel - Mevlid Kandili</strong><br>
-      Efendimiz (sav)ʼin doğumu.
-    </div>
-    <div>
-      <strong>27 Recep - Miraç Kandili</strong><br>
-      Peygamber Efendimiz (sav)ʼin göğe yükseldiği gece.
-    </div>
-    <div>
-      <strong>15 Şaban - Berat Kandili</strong><br>
-      Kulların günahlarının affedildiği gece.
-    </div>
+
+  <h2>Önemli Günler</h2>
+  <div class="important-day">
+    <strong>1 Muharrem - Hicri Yılbaşı</strong><br/>
+    Hicri yılın başlangıcı, yeni bir manevi başlangıç fırsatı.
+  </div>
+  <div class="important-day">
+    <strong>10 Muharrem - Aşure Günü</strong><br/>
+    Aşure günü oruç tutmak çok faziletlidir.
+  </div>
+  <div class="important-day">
+    <strong>12 Rebiülevvel - Mevlid Kandili</strong><br/>
+    Efendimiz (sav)’in doğumu.
+  </div>
+  <div class="important-day">
+    <strong>27 Recep - Miraç Kandili</strong><br/>
+    Peygamber Efendimiz (sav)’in göğe yükseldiği gece.
+  </div>
+  <div class="important-day">
+    <strong>15 Şaban - Berat Kandili</strong><br/>
+    Kulların günahlarının affedildiği gece.
   </div>
 
   <script>
-    const importantDays = [1, 10, 12, 27, 15]; // hicri ay içindeki önemli günler
-    
-
-    function renderCalendar() {
+    async function loadToday() {
+      const todayDiv = document.getElementById("today");
       const calendarDiv = document.getElementById("calendar");
-      calendarDiv.innerHTML = "";
-      for (let i = 1; i <= 30; i++) {
-        const dayDiv = document.createEasync function loadToday() {
-  const todayDiv = document.getElementById("today");
-  try {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const year = today.getFullYear();
-    const dateStr = `${day}-${month}-${year}`;
+      try {
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const year = today.getFullYear();
+        const dateStr = `${day}-${month}-${year}`;
 
-    const res = await fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}`);
-    const data = await res.json();
+        const res = await fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}`);
+        const data = await res.json();
 
-    if (!data || !data.data || !data.data.hijri) throw "Hicri tarih alınamadı.";
-    const hijri = data.data.hijri;
-    const hijriMonth = hijri.month.tr || hijri.month.en || "Bilinmiyor";
+        if (!data || !data.data || !data.data.hijri) throw "Hicri tarih alınamadı.";
+        const hijri = data.data.hijri;
+        const hijriMonth = hijri.month.tr || hijri.month.en || "Bilinmiyor";
 
-    todayDiv.textContent = `Bugün: ${today.toLocaleDateString('tr-TR')} / ${hijri.day} ${hijriMonth} ${hijri.year} H`;
-  } catch (err) {
-    console.error(err);
-    todayDiv.textContent = "Bugünün tarihi yüklenemedi.";
-  }
-    }
-        lement("div");
-        dayDiv.className = "day";
-        dayDiv.innerHTML = `<strong>${i}</strong><br><small>Hicri ${i}</small>`;
+        todayDiv.textContent = `Bugün: ${today.toLocaleDateString('tr-TR')} / ${hijri.day} ${hijriMonth} ${hijri.year} H`;
 
-        if (importantDays.includes(i)) {
-          dayDiv.classList.add("important");
+        // Takvimi doldur
+        calendarDiv.innerHTML = '';
+        const hijriDay = parseInt(hijri.day);
+        const daysInMonth = hijri.daysInMonth || 30; // fallback 30 gün
+        for (let i = 1; i <= daysInMonth; i++) {
+          const dayDiv = document.createElement('div');
+          dayDiv.className = 'day';
+          if (i === hijriDay) dayDiv.classList.add('today');
+          dayDiv.textContent = `${i} Hicri ${i}`;
+          calendarDiv.appendChild(dayDiv);
         }
 
-        if (localStorage.getItem("fasted_" + i) === "true") {
-          dayDiv.classList.add("fasted");
-        }
-
-        dayDiv.addEventListener("click", () => {
-          const isFasted = localStorage.getItem("fasted_" + i) === "true";
-          localStorage.setItem("fasted_" + i, !isFasted);
-          dayDiv.classList.toggle("fasted");
-        });
-
-        calendarDiv.appendChild(dayDiv);
+      } catch (err) {
+        console.error(err);
+        todayDiv.textContent = "Bugünün tarihi yüklenemedi.";
       }
     }
 
     loadToday();
-    renderCalendar();
   </script>
 </body>
 </html>
