@@ -46,32 +46,35 @@
 
   <script>
     const importantDays = [1, 10, 12, 27, 15]; // hicri ay içindeki önemli günler
-    async function loadToday() {
-      const todayDiv = document.getElementById("today");
-      try {
-        const today = new Date();
-        const day = String(today.getDate()).padStart(2, '0');
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const year = today.getFullYear();
-        const dateStr = `${day}-${month}-${year}`; // API DD-MM-YYYY bekliyor
-
-        const res = await fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}`);
-        const data = await res.json();
-
-        if (!data || !data.data || !data.data.hijri) throw "Hicri tarih alınamadı.";
-        const hijri = data.data.hijri;
-        todayDiv.textContent = `Bugün: ${today.toLocaleDateString('tr-TR')} / ${hijri.day} ${hijri.month.tr} ${hijri.year} H`;
-      } catch (err) {
-        console.error(err);
-        todayDiv.textContent = "Bugünün tarihi yüklenemedi.";
-      }
-    }
+    
 
     function renderCalendar() {
       const calendarDiv = document.getElementById("calendar");
       calendarDiv.innerHTML = "";
       for (let i = 1; i <= 30; i++) {
-        const dayDiv = document.createElement("div");
+        const dayDiv = document.createEasync function loadToday() {
+  const todayDiv = document.getElementById("today");
+  try {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    const dateStr = `${day}-${month}-${year}`;
+
+    const res = await fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}`);
+    const data = await res.json();
+
+    if (!data || !data.data || !data.data.hijri) throw "Hicri tarih alınamadı.";
+    const hijri = data.data.hijri;
+    const hijriMonth = hijri.month.tr || hijri.month.en || "Bilinmiyor";
+
+    todayDiv.textContent = `Bugün: ${today.toLocaleDateString('tr-TR')} / ${hijri.day} ${hijriMonth} ${hijri.year} H`;
+  } catch (err) {
+    console.error(err);
+    todayDiv.textContent = "Bugünün tarihi yüklenemedi.";
+  }
+    }
+        lement("div");
         dayDiv.className = "day";
         dayDiv.innerHTML = `<strong>${i}</strong><br><small>Hicri ${i}</small>`;
 
