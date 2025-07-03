@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Zikir ve Tesbihat Sayacı</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      padding: 30px;
+      text-align: center;
+    }
+    h1 {
+      color: #007744;
+      margin-bottom: 20px;
+    }
+    #counter {
+      font-size: 3rem;
+      margin: 20px 0;
+      color: #00aa55;
+    }
+    button {
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+    }
+    .increment {
+      background: #00aa55;
+    }
+    .reset {
+      background: #aa0000;
+    }
+    #message {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #007744;
+    }
+  </style>
+</head>
+<body>
+  <h1>Zikir ve Tesbihat Sayacı</h1>
+
+  <div>
+    <p>Hedef: <strong id="target">100</strong> zikir</p>
+    <div id="counter">0</div>
+    <button class="increment" onclick="incrementCounter()">+1</button>
+    <button class="reset" onclick="resetCounter()">Sıfırla</button>
+    <p id="message"></p>
+  </div>
+
+  <script>
+    const target = 100;
+    document.getElementById('target').textContent = target;
+    let count = parseInt(localStorage.getItem("zikirCounter")) || 0;
+    const counterEl = document.getElementById("counter");
+    const messageEl = document.getElementById("message");
+    counterEl.textContent = count;
+
+    function incrementCounter() {
+      count++;
+      localStorage.setItem("zikirCounter", count);
+      counterEl.textContent = count;
+      checkTarget();
+    }
+
+    function resetCounter() {
+      count = 0;
+      localStorage.setItem("zikirCounter", count);
+      counterEl.textContent = count;
+      messageEl.textContent = "";
+    }
+
+    function checkTarget() {
+      if (count >= target) {
+        messageEl.textContent = "🎉 Tebrikler! Hedefinize ulaştınız!";
+      } else {
+        messageEl.textContent = "";
+      }
+    }
+  </script>
+</body>
+                         </html>
