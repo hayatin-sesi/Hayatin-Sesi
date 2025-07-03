@@ -2,9 +2,9 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bağış - Hayatın Sesi</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Roboto', sans-serif; background-color: #0d1f1e; color: #fff; }
@@ -66,7 +66,20 @@
       color: #ffd700;
       text-decoration: underline;
     }
-    
+    .donation-box ul {
+      margin: 1rem 0; padding-left: 1.2rem; color: #ccc;
+    }
+    .donation-box .donate-btn {
+      background-color: #00ff88;
+      color: #000;
+      padding: 0.6rem 1.2rem;
+      text-decoration: none;
+      border-radius: 8px;
+      display: inline-block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    .donation-box .donate-btn.red { background-color: #ff0000; color: #fff; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -88,7 +101,7 @@
   <div class="menu-links" id="menuLinks">
     <a href="index.html">Ana Sayfa</a>
     <a href="hakkimizda.html">Hakkımızda</a>
-        <a href="namaz.html">Namaz Öğrenme Modülü</a>
+    <a href="namaz.html">Namaz Öğrenme Modülü</a>
     <a href="kuran.html">Kur'an-ı Kerim</a>
     <a href="zikir.html">Günlük Hatırlatıcılar</a>
     <a href="takvim.html">İslâmi Takvim ve Oruç Takibi</a>
@@ -104,18 +117,47 @@
     <div class="donation-box">
       <h2>SMA Hastaları İçin Bağış</h2>
       <p>"Kim bir canı kurtarırsa, bütün insanları kurtarmış gibi olur." (Maide 5/32)</p>
-      <p>SMA hastası yavrularımızın tedavisi için yardımlarınız çok kıymetli. Haydi onların sesi olalım.</p>
+      <p>SMA hastası yavrularımızın tedavisi için yardımlarınız çok kıymetli. İlaç, tedavi ve bakım masrafları için bağış yapabilirsiniz.</p>
+      <ul>
+        <li>SMA tedavi giderleri çok yüksektir.</li>
+        <li>Resmî dernekler üzerinden şeffaf yardım yapabilirsiniz.</li>
+        <li>Sosyal medyada çocukların kampanyalarını takip ederek direkt destek olun.</li>
+      </ul>
       <p><strong>Bağış Siteleri:</strong>
         <br> <a href="https://www.sma.org.tr" target="_blank">sma.org.tr</a>
         <br> <a href="https://www.instagram.com/smadernegi/" target="_blank">@smadernegi (Instagram)</a>
       </p>
+      <a href="https://www.sma.org.tr" target="_blank" class="donate-btn">Destek Ol</a>
+    </div>
+
+    <div class="donation-box">
+      <h2>Gazze İçin Acil Yardım</h2>
+      <p>"Müminler ancak kardeştir." (Hucurât 49/10)</p>
+      <p>Gazze’de yaşanan insani kriz için acil yardıma ihtiyaç var. Gıda, su, sağlık malzemesi ve barınma yardımları için kampanyalara katılabilirsiniz.</p>
+      <ul>
+        <li>Kızılay, AFAD ve İHH gibi kuruluşlar güvenli bağış imkanı sağlar.</li>
+        <li>Gazze’deki kardeşlerimizin temel ihtiyaçlarına katkıda bulunun.</li>
+        <li>Düzenli bağış seçeneğiyle sürekli destek sağlayabilirsiniz.</li>
+      </ul>
+      <p><strong>Bağış Kuruluşları:</strong>
+        <br> <a href="https://www.ihh.org.tr" target="_blank">ihh.org.tr</a>
+        <br> <a href="https://www.kizilay.org.tr" target="_blank">kizilay.org.tr</a>
+        <br> <a href="https://www.afad.gov.tr" target="_blank">afad.gov.tr</a>
+      </p>
+      <a href="https://www.ihh.org.tr" target="_blank" class="donate-btn red">Gazze’ye Destek Ol</a>
     </div>
 
     <div class="donation-box">
       <h2>Hayatın Sesi Bağış</h2>
       <p>"Allah yolunda harcama yapın. Kendi ellerinizle kendinizi tehlikeye atmayın." (Bakara 2/195)</p>
-      <p>Hayatın Sesi, İslamî içerikleri daha geniş kitlelere ulaştırmak için desteğinizi bekliyor. Sunucular, yazılım araçları ve gönüllü projeler için yapılan her destek, Allah rızası için bir yatırımdır.</p>
+      <p>Hayatın Sesi, İslamî içerikleri daha geniş kitlelere ulaştırmak için desteğinizi bekliyor. Sunucular, yazılım ve gönüllü projeler için yapılan her destek, Allah rızası için bir yatırımdır.</p>
+      <ul>
+        <li>Site altyapısı ve barındırma maliyetleri</li>
+        <li>Yeni içerik ve video projeleri</li>
+        <li>Toplum yararına gönüllü çalışmalara destek</li>
+      </ul>
       <p><strong>Bağış E-Posta:</strong> <a href="mailto:hayatinsesi07@gmail.com">hayatinsesi07@gmail.com</a></p>
+      <a href="mailto:hayatinsesi07@gmail.com" class="donate-btn">Destek Ol</a>
     </div>
   </section>
 
@@ -125,4 +167,4 @@
     }
   </script>
 </body>
-      </html>
+  </html>
