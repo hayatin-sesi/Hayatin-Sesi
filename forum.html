@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Hayatın Sesi - Forum</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #f2f8f7;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      color: #1c4c3c;
+      text-align: center;
+    }
+    textarea {
+      width: 100%;
+      height: 80px;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: #218c74;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+    .message {
+      background-color: #ffffff;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 5px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    }
+    #counter {
+      text-align: right;
+      font-size: 14px;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <h1>📌 Hayatın Sesi Forum</h1>
+
+  <textarea id="input" placeholder="Soru sor veya dua isteğini paylaş..."></textarea>
+  <button onclick="sendMessage()">Gönder</button>
+  <div id="counter">0 gönderi</div>
+
+  <div id="messages"></div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyB-h83L1ria_8xjSg4L6k3GFfHT8bk64zs",
+      authDomain: "hayatinsesi-forum.firebaseapp.com",
+      projectId: "hayatinsesi-forum",
+      storageBucket: "hayatinsesi-forum.firebasestorage.app",
+      messagingSenderId: "660293446044",
+      appId: "1:660293446044:web:53e6486215a6c2081d4059"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const input = document.getElementById("input");
+    const messages = document.getElementById("messages");
+    const counter = document.getElementById("counter");
+
+    function sendMessage() {
+      const text = input.value.trim();
+      if (text === "") return;
+      db.collection("gonderiler").add({
+        mesaj: text,
+        zaman: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      input.value = "";
+    }
+
+    db.collection("gonderiler").orderBy("zaman", "desc").onSnapshot(snapshot => {
+      messages.innerHTML = "";
+      let count = 0;
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const div = document.createElement("div");
+        div.className = "message";
+        div.textContent = data.mesaj;
+        messages.appendChild(div);
+        count++;
+      });
+      counter.textContent = `${count} gönderi`;
+    });
+  </script>
+</body>
+  </html>
